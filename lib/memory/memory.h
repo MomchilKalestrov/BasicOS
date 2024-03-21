@@ -1,4 +1,5 @@
 #ifndef _MEMORY_
-	//#include "memory.c"
+	#include "gdt.c"
+	#include "mmu.c"
 	#define _MEMORY_
 #endif
