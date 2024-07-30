@@ -1,0 +1,61 @@
+
+
+
+    +--------+--------+--------+--------+
+eax |r/d/s/g/| ######################## |
+    +--------+--------+--------+--------+
+
+malloc           - 
+free             - 
+get files        - done
+read file        - done
+open file        - done
+write file       - 
+draw figure      - done
+draw GUI element - done
+get/set values   - done
+
+    +--------+--------+--------+--------+ o > open
+eax |  read  | r/o/g/ |  buffer length  | r > read
+    +--------+--------+--------+--------+ g > get all files
+ebx |          buffer  pointer          |
+    +--------+--------+--------+--------+ when o, ebx pointer is the name of the file and ecx is where to save the info of the file
+ecx |           file pointer            | when g, ebx is where all the files will be stored
+    +--------+--------+--------+--------+ when r, ebx is where the file data is stored and ecx is the file pointer
+
+                      +--------+--------+
+                      | style d| type d |
+    +--------+--------+--------+--------+ f > file
+eax | write  |t/e/d/f | draw/buff_len f | d > draw a figure (including strings)
+    +--------+--------+--------+--------+ e > GUI element
+ebx |     buff_ptr f/el_ptr e/pos d     | 
+    +--------+--------+--------+--------+
+ecx |f_ptr f/size or radius d/buff_ptr d| figure types: line, circle, rectangle, strings
+    +--------+--------+--------+--------+
+
+    +--------+--------+--------+--------+
+eax |  set   |            id            |
+    +--------+--------+--------+--------+
+ebx |               value               |
+    +--------+--------+--------+--------+
+
+    +--------+--------+--------+--------+
+eax |  get   |            id            |
+    +--------+--------+--------+--------+
+        |   |   |   |   |   |   |   |    
+        V   V   V   V   V   V   V   V
+    +--------+--------+--------+--------+
+eax |          returned  value          |
+    +--------+--------+--------+--------+
+
+
+    +--------+--------+--------+--------+
+eax | memory |  a/f/  |    length  a    | a > allocate
+    +--------+--------+--------+--------+ f > free
+ebx |             pointer f             |
+    +--------+--------+--------+--------+
+        |   |   |   |   |   |   |   |    
+        V   V   V   V   V   V   V   V
+    +--------+--------+--------+--------+
+eax |             pointer a             |
+    +--------+--------+--------+--------+

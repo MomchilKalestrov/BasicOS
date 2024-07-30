@@ -1,0 +1,131 @@
+void irq_timer(void) {
+	pic_sendEOI(0);
+}
+
+void irq_readkey(void) {
+	uint8_t scancode;
+	uint8_t character;
+
+	uint8_t interface_check = inb(0x64) & 0x20;
+	if(interface_check) {
+		pic_sendEOI(1);
+		return;
+	}
+
+	scancode = inb(0x60);
+
+	switch (scancode) {
+		case 0x2a:
+		case 0x36:
+			mod_keys |= MOD_SHIFT;
+			pic_sendEOI(1);
+			return;
+		case 0xaa:
+		case 0xb6:
+			mod_keys &= ~MOD_SHIFT;
+			pic_sendEOI(1);
+			return;
+
+		case 0x1d:
+			mod_keys |= MOD_CTRL;
+			pic_sendEOI(1);
+			return;
+		case 0x9d:
+			mod_keys &= ~MOD_CTRL;
+			pic_sendEOI(1);
+			return;
+
+		case 0x38:
+			mod_keys |= MOD_ALT;
+			pic_sendEOI(1);
+			return;
+		case 0xb8:
+			mod_keys &= ~MOD_ALT;
+			pic_sendEOI(1);
+			return;
+
+		// case 0x48: return terminal_putchar(0x18); // up
+		// case 0x4b: return terminal_putchar(0x1b); // left
+		// case 0x50: return terminal_putchar(0x19); // down
+		// case 0x4D: return terminal_putchar(0x1a); // right
+	}
+
+	if (scancode & 0x80)
+		goto end;
+	if (scancode == 0xe0)
+		goto end;
+
+	if(mod_keys == MOD_SHIFT)
+		character = keyboard_layout_shift[scancode];
+	else
+		character = keyboard_layout[scancode];
+
+	kb_queue[_kb_internal_ptr++] = character;
+	if(_kb_internal_ptr == KB_RING_SIZE)
+		_kb_internal_ptr = 0;
+
+	if(kb_event) kb_event(character);
+
+	end:
+	pic_sendEOI(1);
+}
+
+void irq_readmouse(void) {
+    static uint8_t mouse_cycle = 0;
+    static uint8_t mouse_byte[3];
+
+    // Check if the mouse data is available
+    uint8_t interface_check = inb(0x64) & 0x20;
+    if(!interface_check) {
+        pic_sendEOI(12);
+        return;
+    }
+
+    // Read the data from port 0x60
+    mouse_byte[mouse_cycle++] = inb(0x60);
+
+	if(!(mouse_byte[0] & 0b00001000)) {
+		mouse_cycle = 0;
+		pic_sendEOI(12);
+		return;
+	}
+
+    // If all three bytes are read, process the mouse movement
+    if(mouse_cycle == 3) {
+        mouse_cycle = 0;
+
+		uint8_t state = mouse_byte[0];
+		uint8_t x     = mouse_byte[1];
+		uint8_t y     = mouse_byte[2];
+
+		int32_t new_x = mouse_x + (x - ((state << 4) & 0x100));
+		int32_t new_y = mouse_y - (y - ((state << 3) & 0x100));
+
+		if(state & 0x01)
+			element_clicked();
+
+		if(new_x < 1) new_x = 1;
+		if(new_y < 1) new_y = 1;
+		if(new_x > (int32_t)(mb_info->framebuffer_width - 1)) new_x = mb_info->framebuffer_width - 1;
+		if(new_y > (int32_t)(mb_info->framebuffer_height - 1)) new_y = mb_info->framebuffer_height - 1;
+
+		mouse_update(new_x, new_y);
+
+		if(ms_event) ms_event();
+    }
+
+    // Send End of Interrupt (EOI) signal
+    pic_sendEOI(12);
+}
+
+void irq_coprocessor() {
+	pic_sendEOI(13);
+}
+
+void irq_primaryATA() {
+	pic_sendEOI(14);
+}
+
+void irq_secondaryATA() {
+	pic_sendEOI(15);
+}
