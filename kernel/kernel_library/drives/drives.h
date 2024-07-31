@@ -97,10 +97,13 @@
         uint32_t filesize;
     } __attribute__((packed)) fat32_directory_t;
 
+    typedef char filename_t[11];
+
     typedef struct {
-        char     file_name[12];
-        uint32_t first_cluster;
-        size_t   file_size;
+        filename_t file_name;
+        uint8_t    null;
+        uint32_t   first_cluster;
+        size_t     file_size;
     } file_t;
 
     mbr_header_t mbr;

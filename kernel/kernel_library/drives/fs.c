@@ -67,7 +67,6 @@ void drive_init(mbr_header_t *mbr_ptr) {
 
         for(int j = 0; j < 11; j++)
             dirs[dir_counter].file_name[j] = dir[i].filename[j];
-        dirs[dir_counter].file_name[11] = '\0';
         dir_counter++;
     }
 }

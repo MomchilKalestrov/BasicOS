@@ -3,15 +3,15 @@
 eax |r/d/s/g/| ######################## |
     +--------+--------+--------+--------+
 
-malloc           - 
-free             - 
-get files        - done
-read file        - done
-open file        - done
+malloc           - done - done
+free             - done - done
+get files        - done - done
+read file        - done -
+open file        - done -
 write file       - 
-draw figure      - done
-draw GUI element - done
-get/set values   - done
+draw figure      - done - yes
+draw GUI element - done - yes
+get/set values   - done -
 
     +--------+--------+--------+--------+ o > open
 eax |  read  | r/o/g/ |  buffer length  | r > read
