@@ -20,7 +20,6 @@ void file_clicked(element_t *e) {
         foreground = 0xf5ded3;
         background = 0x75300D;
         elements = _elements_arr;
-        graphics_rectangle(0, 0, framebuffer_width, framebuffer_height, 0);
         element_render();
     }
     else if(string_compare(extention, "TGA")) {
