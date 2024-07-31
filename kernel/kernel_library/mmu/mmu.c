@@ -3,6 +3,12 @@ void mmu_init(void) {
     mmu_head->size = MMU_HEAP_SIZE - sizeof(mmu_node_t);
     mmu_head->is_free = 1;
     mmu_head->next = NULL;
+    // I'm so brainrotted I forgot to initialize the kernel MMU
+    // and when you allocated from it you allways got a null pointer
+    mmu_k_head = (mmu_node_t *)k_heap;
+    mmu_k_head->size = MMU_HEAP_SIZE - sizeof(mmu_node_t);
+    mmu_k_head->is_free = 1;
+    mmu_k_head->next = NULL;
 }
 
 mmu_node_t *_get_first_free_block(size_t size, bool kernel) {

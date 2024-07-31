@@ -53,7 +53,6 @@ uint32_t graphics_getpixel(uint16_t x, uint16_t y);
 #include "./kernel_library/input/mouse.h"
 #include "./kernel_library/drives/drives.h"
 #include "./kernel_library/display/glib.h"
-#include "./paging/paging.h"
 #include "./kernel_library/loader/loader.h"
 #include "./PIC/pic.h"
 #include "./PIC/isr.c"

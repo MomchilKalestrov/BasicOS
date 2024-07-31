@@ -5,7 +5,7 @@ void graphics_init(void) {
     framebuffer_width = mb_info->framebuffer_width;
     framebuffer_height = mb_info->framebuffer_height;
 
-    framebuffer = (uint32_t *)0x1800000;
+    framebuffer = (uint32_t *)mb_info->framebuffer_addr;
     for (uint16_t y = 0; y < framebuffer_height; y++)
         for (uint16_t x = 0; x < framebuffer_width; x++)
             framebuffer[y * framebuffer_width + x] = background;

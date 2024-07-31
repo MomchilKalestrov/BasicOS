@@ -13,7 +13,7 @@ void file_clicked(element_t *e) {
         size_t len = 512;
         while(len < file.file_size)
             len += 512;
-        uint8_t buf[len];
+        uint8_t *buf = (uint8_t *)mmu_allocate(len, true);
         drive_readfile(file, buf, len);
         binary_execute(buf, len);
 
