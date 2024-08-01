@@ -41,6 +41,7 @@ void *getters[] = {
 
 typedef void (*_calls)(uint32_t, uint32_t, uint32_t);
 
+#include "./memory_calls.c"
 #include "./read_calls.c"
 #include "./write_calls.c"
 #include "./syscall.c"

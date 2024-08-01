@@ -14,5 +14,8 @@ void _handle_syscall(uint32_t eax, uint32_t ebx, uint32_t ecx) {
             return_value = *((uint32_t *)getters[eax & 0x00ffffff]);
             has_return = true;
             return;
+        case COMMAND_MEMORY:
+            memory_calls[syscall_type](eax, ebx, ecx);
+            return;
     }
 }
