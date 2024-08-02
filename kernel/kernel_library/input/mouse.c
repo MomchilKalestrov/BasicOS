@@ -9,11 +9,8 @@ void mouse_update(int32_t new_x, int32_t new_y) {
 
     for(uint8_t y = 0; y < CURSOR_SIZE; y++)
         for(uint8_t x = 0; x < CURSOR_SIZE; x++)
-            switch (cursor[y][x])
-            {
-                case 1: graphics_pixel(new_x + x, new_y + y, 0x000000); break;
-                case 2: graphics_pixel(new_x + x, new_y + y, 0xffffff); break;
-            }
+            if(cursor[y][x])
+                graphics_pixel(new_x + x, new_y + y, mouse_colors[cursor[y][x]]);
 
     mouse_x = new_x;
     mouse_y = new_y;

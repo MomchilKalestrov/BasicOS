@@ -67,6 +67,7 @@ void kernel_main(void) {
 	graphics_init();
 	mouse_init();
     drive_init(&mbr);
+
 	foreground = 0xf5ded3;
 	graphics_rectangle(0, 0, framebuffer_width, framebuffer_height, 0);
 	enter_userland();

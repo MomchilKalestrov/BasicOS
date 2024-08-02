@@ -27,13 +27,13 @@
         uint16_t reserved_sectors;
         uint8_t  number_of_fats;
         uint16_t max_root_dir_entries;
-        uint16_t total_sectors_small;
+        uint16_t total_sectors_16;
         uint8_t  media_descriptor;
         uint16_t sectors_per_fat_16;
         uint16_t sectors_per_track;
         uint16_t number_of_heads;
         uint32_t hidden_sectors;
-        uint32_t total_sectors_large;
+        uint32_t total_sectors_32;
 
         uint32_t sectors_per_fat_32;
         uint16_t extended_flags;
