@@ -21,6 +21,7 @@ void file_clicked(element_t *e) {
         background = 0x75300D;
         elements = _elements_arr;
         element_render();
+        mmu_free(buf);
     }
     else if(string_compare(extention, "TGA")) {
         file_t *file = (file_t *)mmu_allocate(sizeof(file_t), true);

@@ -18,31 +18,25 @@ void irq_readkey(void) {
 		case 0x2a:
 		case 0x36:
 			mod_keys |= MOD_SHIFT;
-			pic_sendEOI(1);
-			return;
+			goto end;
 		case 0xaa:
 		case 0xb6:
 			mod_keys &= ~MOD_SHIFT;
-			pic_sendEOI(1);
-			return;
+			goto end;
 
 		case 0x1d:
 			mod_keys |= MOD_CTRL;
-			pic_sendEOI(1);
-			return;
+			goto end;
 		case 0x9d:
 			mod_keys &= ~MOD_CTRL;
-			pic_sendEOI(1);
-			return;
+			goto end;
 
 		case 0x38:
 			mod_keys |= MOD_ALT;
-			pic_sendEOI(1);
-			return;
+			goto end;
 		case 0xb8:
 			mod_keys &= ~MOD_ALT;
-			pic_sendEOI(1);
-			return;
+			goto end;
 
 		// case 0x48: return terminal_putchar(0x18); // up
 		// case 0x4b: return terminal_putchar(0x1b); // left
@@ -50,12 +44,10 @@ void irq_readkey(void) {
 		// case 0x4D: return terminal_putchar(0x1a); // right
 	}
 
-	if (scancode & 0x80)
-		goto end;
-	if (scancode == 0xe0)
+	if (scancode & 0x80 || scancode == 0xe0)
 		goto end;
 
-	if(mod_keys == MOD_SHIFT)
+	if(mod_keys & MOD_SHIFT)
 		character = keyboard_layout_shift[scancode];
 	else
 		character = keyboard_layout[scancode];
@@ -64,7 +56,8 @@ void irq_readkey(void) {
 	if(_kb_internal_ptr == KB_RING_SIZE)
 		_kb_internal_ptr = 0;
 
-	if(kb_event) kb_event(character);
+	if(kb_event)
+		kb_event(mod_keys, character);
 
 	end:
 	pic_sendEOI(1);
@@ -74,23 +67,18 @@ void irq_readmouse(void) {
     static uint8_t mouse_cycle = 0;
     static uint8_t mouse_byte[3];
 
-    // Check if the mouse data is available
     uint8_t interface_check = inb(0x64) & 0x20;
-    if(!interface_check) {
-        pic_sendEOI(12);
-        return;
-    }
+    if(!interface_check)
+		goto end;
 
-    // Read the data from port 0x60
     mouse_byte[mouse_cycle++] = inb(0x60);
 
+	// Align the actual packets
 	if(!(mouse_byte[0] & 0b00001000)) {
 		mouse_cycle = 0;
-		pic_sendEOI(12);
-		return;
+		goto end;
 	}
 
-    // If all three bytes are read, process the mouse movement
     if(mouse_cycle == 3) {
         mouse_cycle = 0;
 
@@ -111,10 +99,10 @@ void irq_readmouse(void) {
 
 		mouse_update(new_x, new_y);
 
-		if(ms_event) ms_event();
+		if(ms_event) ms_event(mouse_x, mouse_y);
     }
 
-    // Send End of Interrupt (EOI) signal
+	end:
     pic_sendEOI(12);
 }
 

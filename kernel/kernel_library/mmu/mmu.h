@@ -1,6 +1,6 @@
 #ifndef _MMU_
     #define _MMU_
-    #define MMU_HEAP_SIZE 1024 * 1024 * 16 //4mb
+    #define MMU_HEAP_SIZE 1024 * 1024 * 16 //16MB
     typedef struct __attribute__((packed)) _mmu_node {
         size_t size;
         uint8_t is_free;

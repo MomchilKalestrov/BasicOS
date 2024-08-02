@@ -18,6 +18,6 @@ grub-mkrescue -o BasicOS.iso iso #
 # echo "-singlestep -no-reboot -d int"
 # echo "-d out_asm 2> qemu_log.txt" -serial mon:stdio 
 # Run the ISO with QEMU
-qemu-system-i386 -cdrom BasicOS.iso -drive file=disk.img,format=raw -boot d -no-reboot -m 64m # -d int -monitor stdio #
+qemu-system-i386 -cdrom BasicOS.iso -drive file=disk.img,format=raw -boot d -m 64m -d int -no-reboot #-monitor stdio #
 # Change back to the builder directory
 cd builder #

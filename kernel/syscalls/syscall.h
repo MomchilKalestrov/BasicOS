@@ -26,17 +26,17 @@ bool has_return = false;
 void *setters[] = {
     (void *)&foreground,
     (void *)&background,
-    (void *)&kb_event
+    (void *)&kb_event,
+    (void *)&ms_event
 };
 
 void *getters[] = {
     (void *)&foreground,
     (void *)&background,
     (void *)&kb_event,
+    (void *)&ms_event,
     (void *)&framebuffer_width,
-    (void *)&framebuffer_height,
-    (void *)&mouse_x,
-    (void *)&mouse_y
+    (void *)&framebuffer_height
 };
 
 typedef void (*_calls)(uint32_t, uint32_t, uint32_t);

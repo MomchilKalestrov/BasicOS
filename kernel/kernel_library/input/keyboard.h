@@ -3,7 +3,7 @@
 	
 	#define KB_RING_SIZE 4
 
-	typedef void(*kb_callback_t)(char);
+	typedef void(*kb_callback_t)(uint8_t, char);
 
 														/*    0     1    2    3    4    5    6    7    8     9    10    11    12    13   14    15 */
 	const unsigned char keyboard_layout[128] =		{	'\0', '\0', '1', '2', '3', '4', '5', '6', '7',  '8', '9',  '0',  '-',  '=', '\b', '\t',

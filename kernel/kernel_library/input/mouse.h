@@ -3,7 +3,7 @@
 
     #define CURSOR_SIZE 12
     
-	typedef void(*ms_callback_t)();
+	typedef void(*ms_callback_t)(uint16_t, uint16_t);
 
     ms_callback_t ms_event;
 
