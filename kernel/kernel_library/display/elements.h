@@ -3,10 +3,11 @@
 
     #define MAX_ELEMENTS 64
 
-    #define BUTTON  0
+    #define NOENTRY 0
     #define FIELD   1
     #define LABEL   2
     #define IMAGE   3
+    #define BUTTON  4
 
     typedef struct {
         uint16_t x;

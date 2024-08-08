@@ -89,21 +89,19 @@ void irq_readmouse(void) {
 		int32_t new_x = mouse_x + (x - ((state << 4) & 0x100));
 		int32_t new_y = mouse_y - (y - ((state << 3) & 0x100));
 
-		if(state & 0x01)
-			element_clicked();
 
 		if(new_x < 1) new_x = 1;
 		if(new_y < 1) new_y = 1;
 		if(new_x > (int32_t)(mb_info->framebuffer_width - 1)) new_x = mb_info->framebuffer_width - 1;
 		if(new_y > (int32_t)(mb_info->framebuffer_height - 1)) new_y = mb_info->framebuffer_height - 1;
 
+		if(state & 0x01)
+			element_clicked();
+		
 		mouse_update(new_x, new_y);
-
-		if(ms_event) ms_event(mouse_x, mouse_y);
     }
 
-	end:
-    pic_sendEOI(12);
+	end: pic_sendEOI(12);
 }
 
 void irq_coprocessor() {
