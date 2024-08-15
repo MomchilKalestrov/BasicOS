@@ -68,12 +68,12 @@ void _render_button(element_t e) {
     background = e.foreground;
 
     size_t len = string_length(e.text);
-    if(len < e.width / 9)
-        graphics_text(e.x + e.width / 2 - len * 9 / 2, e.y + e.height / 2 - 8, e.text);
+    if(len < e.width / 8)
+        graphics_text(e.x + e.width / 2 - len * 4, e.y + e.height / 2 - 8, e.text);
     else {
-        char *ptr = e.text + (len - e.width / 9);
+        char *ptr = e.text + (len - e.width / 8);
         size_t short_len = string_length(ptr);
-        graphics_text(e.x + e.width / 2 - short_len * 9 / 2, e.y + e.height / 2 - 8, ptr);
+        graphics_text(e.x + e.width / 2 - short_len * 4, e.y + e.height / 2 - 8, ptr);
     }
 }
 
@@ -86,12 +86,12 @@ void _render_field(element_t e, bool selected) {
     background = e.background;
     
     size_t len = string_length(e.text);
-    if(len < e.width / 9)
-        graphics_text(e.x + e.width / 2 - len * 9 / 2, e.y + e.height / 2 - 8, e.text);
+    if(len < e.width / 8)
+        graphics_text(e.x + e.width / 2 - len * 4, e.y + e.height / 2 - 8, e.text);
     else {
-        char *ptr = e.text + (len - e.width / 9);
+        char *ptr = e.text + (len - e.width / 8);
         size_t short_len = string_length(ptr);
-        graphics_text(e.x + e.width / 2 - short_len * 9 / 2, e.y + e.height / 2 - 8, ptr);
+        graphics_text(e.x + e.width / 2 - short_len * 4, e.y + e.height / 2 - 8, ptr);
     }
 
     if(selected)

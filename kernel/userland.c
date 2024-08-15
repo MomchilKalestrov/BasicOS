@@ -85,6 +85,14 @@ void enter_userland(void) {
         ((button_t *)elements[i].extras)->on_click = file_clicked;
     }
     element_render();
+
+    for(;;) {
+        asm("hlt");
+        event_t e = event_pop();
+        if(e.type == MOUSE_CLICK)
+            element_clicked();
+    }
+
     foreground = 0xf5ded3;
     background = 0x75300D;
 }

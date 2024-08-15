@@ -9,16 +9,18 @@
 #define PARAM_FILE_ALL  0b00000010 << 16
 
 #define PARAM_FILE_WRITE 0b0000000 << 16
-#define PARAM_FIGURE    0b00000001 << 16
-#define PARAM_ELEMENT   0b00000010 << 16
+#define PARAM_FIGURE     0b00000001 << 16
+#define PARAM_ELEMENT    0b00000010 << 16
 
 #define PARAM_MEM_ALLOC 0b00000000 << 16
 #define PARAM_MEM_FREE  0b00000001 << 16
 
-#define FIG_TYPE_LINE   0b00000000 << 0
-#define FIG_TYPE_RECT   0b00000001 << 0
-#define FIG_TYPE_CIRC   0b00000010 << 0
-#define FIG_TYPE_TEXT   0b00000011 << 0
+#define FIG_TYPE_LINE      0b00000000 << 0
+#define FIG_TYPE_RECTANGLE 0b00000001 << 0
+#define FIG_TYPE_CIRCLE    0b00000010 << 0
+#define FIG_TYPE_TEXT      0b00000011 << 0
+#define FIG_TYPE_SYMBOL    0b00000100 << 0
+#define FIG_TYPE_PIXEL     0b00000101 << 0
 
 uint32_t return_value = 0;
 bool has_return = false;

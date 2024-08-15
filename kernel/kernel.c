@@ -52,13 +52,14 @@ uint32_t graphics_getpixel(uint16_t x, uint16_t y);
 #include "./kernel_library/input/keyboard.h"
 #include "./kernel_library/input/mouse.h"
 #include "./kernel_library/drives/drives.h"
+#include "./kernel_library/input/events.h"
 #include "./PIC/pic.h"
 #include "./kernel_library/display/glib.h"
 #include "./kernel_library/loader/loader.h"
 #include "./PIC/isr.c"
 #include "./IDT/idt.c"
 #include "./syscalls/syscall.h"
-#include "./userland.c"
+//#include "./userland.c"
 
 mbr_header_t mbr;
 
@@ -68,7 +69,11 @@ void kernel_main(void) {
 	mouse_init();
     drive_init(&mbr);
 	foreground = 0xf5ded3;
-	graphics_rectangle(0, 0, framebuffer_width, framebuffer_height, 0);
-	enter_userland();
+	graphics_rectangle(
+        0, 0,
+        framebuffer_width, framebuffer_height,
+        0
+    );
+    //enter_userland();
 	for(;;);
 }

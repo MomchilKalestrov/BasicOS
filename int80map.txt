@@ -16,19 +16,17 @@ get/set values   - done -
     +--------+--------+--------+--------+ o > open
 eax |  read  | r/o/g/ |  buffer length  | r > read
     +--------+--------+--------+--------+ g > get all files
-ebx |          buffer  pointer          |
+ebx |          buffer  pointer          | e > event
     +--------+--------+--------+--------+ when o, ebx pointer is the name of the file and ecx is where to save the info of the file
 ecx |           file pointer            | when g, ebx is where all the files will be stored
     +--------+--------+--------+--------+ when r, ebx is where the file data is stored and ecx is the file pointer
 
-                      +--------+--------+
-                      | style d| type d |
     +--------+--------+--------+--------+ f > file
-eax | write  |t/e/d/f | draw/buff_len f | d > draw a figure (including strings)
-    +--------+--------+--------+--------+ e > GUI element
-ebx |     buff_ptr f/el_ptr e/pos d     | 
+eax | write  |t/e/d/f | style d| type d | d > draw a figure (including strings)
     +--------+--------+--------+--------+
-ecx |f_ptr f/size or radius d/buff_ptr d| figure types: line, circle, rectangle, strings
+ebx |         buff_ptr f/ pos d         | 
+    +--------+--------+--------+--------+
+ecx |ptr fd/size, color,symbol, radius d| figure types: line, circle, rectangle, strings, pixel, symbol
     +--------+--------+--------+--------+
 
     +--------+--------+--------+--------+

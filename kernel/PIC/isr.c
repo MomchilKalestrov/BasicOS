@@ -7,10 +7,8 @@ void irq_readkey(void) {
 	uint8_t character;
 
 	uint8_t interface_check = inb(0x64) & 0x20;
-	if(interface_check) {
-		pic_sendEOI(1);
-		return;
-	}
+	if(interface_check)
+		goto end;
 
 	scancode = inb(0x60);
 
@@ -64,6 +62,7 @@ void irq_readkey(void) {
 }
 
 void irq_readmouse(void) {
+	static uint8_t buttons = 0;
     static uint8_t mouse_cycle = 0;
     static uint8_t mouse_byte[3];
 
@@ -94,11 +93,23 @@ void irq_readmouse(void) {
 		if(new_y < 1) new_y = 1;
 		if(new_x > (int32_t)(mb_info->framebuffer_width - 1)) new_x = mb_info->framebuffer_width - 1;
 		if(new_y > (int32_t)(mb_info->framebuffer_height - 1)) new_y = mb_info->framebuffer_height - 1;
-
-		if(state & 0x01)
-			element_clicked();
 		
 		mouse_update(new_x, new_y);
+
+		event_t event = {
+			.mouse_event = {
+				.x = new_x,
+				.y = new_y
+			}
+		};
+
+		if(state & 0b00000111)	event.type = buttons ? MOUSE_DRAG : MOUSE_CLICK;
+		else if (buttons)		event.type = MOUSE_RELEASE;
+		else					event.type = MOUSE_MOVE;
+
+		event_push(event);
+
+		buttons = state & 0b00000111;
     }
 
 	end: pic_sendEOI(12);
