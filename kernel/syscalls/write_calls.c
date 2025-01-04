@@ -40,10 +40,11 @@ void _syscall_write_figure(uint32_t eax, uint32_t ebx, uint32_t ecx) {
                 ebx >> 16, (uint16_t)ebx & 0x0000FFFF,
                 ecx
             );
+            break;
         case FIG_TYPE_SYMBOL:
-            graphics_symbol(
+            graphics_glyph(
                 ebx >> 16, (uint16_t)ebx & 0x0000FFFF,
-                ecx
+                (char)ecx
             );
             break;
     }

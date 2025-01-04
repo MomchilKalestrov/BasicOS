@@ -9,25 +9,7 @@
     #define IMAGE   3
     #define BUTTON  4
 
-    typedef struct {
-        uint16_t x;
-        uint16_t y;
-
-        uint16_t width;
-        uint16_t height;
-
-        uint32_t foreground;
-        uint32_t background;
-
-        bool visible;
-
-        char *text;
-
-        uint8_t type;
-        uint8_t extras[8];
-    } element_t;
-    
-    typedef void (*callback_t)(element_t *);
+    typedef void (*callback_t)(void *);
 
     typedef struct {
         callback_t on_click;
@@ -41,6 +23,23 @@
     typedef struct {
         file_t *image_location;
     } image_t;
+
+    typedef struct {
+        uint8_t type;
+        uint16_t x;
+        uint16_t y;
+        uint16_t width;
+        uint16_t height;
+        uint32_t foreground;
+        uint32_t background;
+        bool visible;
+        char *text;
+        union {
+            button_t button;
+            field_t field;
+            image_t image;
+        };
+    } element_t;
 
     element_t _elements_arr[MAX_ELEMENTS];
     element_t *elements = _elements_arr;

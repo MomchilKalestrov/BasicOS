@@ -17,7 +17,7 @@ void event_push(event_t event) {
 
 event_t event_pop(void) {
     // if the list is empty, return
-    if(event_head == NULL) return (event_t){0};
+    if (event_tail == NULL) return (event_t){0};
     // pop the event from the tail/end of the list
     node_t *temp = event_tail;
     event_tail = event_tail->prev;

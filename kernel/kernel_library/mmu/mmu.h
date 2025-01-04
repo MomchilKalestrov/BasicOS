@@ -7,8 +7,8 @@
         struct _mmu_node *next;
     } mmu_node_t;
 
-    static uint8_t k_heap[MMU_HEAP_SIZE]__attribute__((aligned(4096)));
-    static uint8_t heap[MMU_HEAP_SIZE]__attribute__((aligned(4096)));
+    static uint8_t k_heap[MMU_HEAP_SIZE];
+    static uint8_t heap[MMU_HEAP_SIZE];
     mmu_node_t *mmu_k_head = (mmu_node_t *)k_heap;
     mmu_node_t *mmu_head = (mmu_node_t *)heap;
 

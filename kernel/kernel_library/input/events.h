@@ -1,16 +1,13 @@
 #ifndef _EVENTS_
 
-    typedef enum {
-        KEY_PRESS     = 1,
-        KEY_RELEASE   = 2,
-        MOUSE_MOVE    = 3,
-        MOUSE_CLICK   = 4,
-        MOUSE_DRAG    = 5,
-        MOUSE_RELEASE = 6
-    } event_type_t;
+    #define EVENT_KEY_PRESS     1
+    #define EVENT_KEY_RELEASE   2
+    #define EVENT_MOUSE_CLICK   3
+    #define EVENT_MOUSE_DRAG    4
+    #define EVENT_MOUSE_RELEASE 5
 
     typedef struct {
-        event_type_t type;
+        uint8_t type;
 
         union {
             struct {
@@ -22,6 +19,8 @@
                 uint16_t x;
                 uint16_t y;
             } mouse_event;
+
+            uint8_t _union_size[7];
         };
     } event_t;
 

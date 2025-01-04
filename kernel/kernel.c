@@ -59,7 +59,7 @@ uint32_t graphics_getpixel(uint16_t x, uint16_t y);
 #include "./PIC/isr.c"
 #include "./IDT/idt.c"
 #include "./syscalls/syscall.h"
-//#include "./userland.c"
+#include "./userland.c"
 
 mbr_header_t mbr;
 
@@ -69,11 +69,6 @@ void kernel_main(void) {
 	mouse_init();
     drive_init(&mbr);
 	foreground = 0xf5ded3;
-	graphics_rectangle(
-        0, 0,
-        framebuffer_width, framebuffer_height,
-        0
-    );
-    //enter_userland();
+    enter_userland();
 	for(;;);
 }

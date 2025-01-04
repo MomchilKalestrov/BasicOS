@@ -4,7 +4,7 @@ void irq_timer(void) {
 
 void irq_readkey(void) {
 	uint8_t scancode;
-	uint8_t character;
+	uint8_t character = 0;
 
 	uint8_t interface_check = inb(0x64) & 0x20;
 	if(interface_check)
@@ -42,22 +42,22 @@ void irq_readkey(void) {
 		// case 0x4D: return terminal_putchar(0x1a); // right
 	}
 
-	if (scancode & 0x80 || scancode == 0xe0)
-		goto end;
+	if (scancode == 0xe0) {
+		pic_sendEOI(1);
+		return;
+	}
 
-	if(mod_keys & MOD_SHIFT)
-		character = keyboard_layout_shift[scancode];
-	else
-		character = keyboard_layout[scancode];
-
-	kb_queue[_kb_internal_ptr++] = character;
-	if(_kb_internal_ptr == KB_RING_SIZE)
-		_kb_internal_ptr = 0;
-
-	if(kb_event)
-		kb_event(mod_keys, character);
+	if (mod_keys & MOD_SHIFT) 	character = keyboard_layout_shift[scancode & 0x7f];
+	else						character = keyboard_layout[scancode & 0x7f];
 
 	end:
+	event_push((event_t) {
+		.type = scancode & 0x80 ? EVENT_KEY_RELEASE : EVENT_KEY_PRESS,
+		.key_event = {
+			.key = character,
+			.mods = mod_keys
+		}
+	});
 	pic_sendEOI(1);
 }
 
@@ -103,11 +103,13 @@ void irq_readmouse(void) {
 			}
 		};
 
-		if(state & 0b00000111)	event.type = buttons ? MOUSE_DRAG : MOUSE_CLICK;
-		else if (buttons)		event.type = MOUSE_RELEASE;
-		else					event.type = MOUSE_MOVE;
-
-		event_push(event);
+		if(state & 0b00000111) {
+			event.type = buttons ? EVENT_MOUSE_DRAG : EVENT_MOUSE_CLICK;
+			event_push(event);
+		} else if (buttons) {
+			event.type = EVENT_MOUSE_RELEASE;
+			event_push(event);
+		}
 
 		buttons = state & 0b00000111;
     }

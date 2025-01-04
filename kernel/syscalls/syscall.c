@@ -11,11 +11,18 @@ void _handle_syscall(uint32_t eax, uint32_t ebx, uint32_t ecx) {
             *((uint32_t *)setters[eax & 0x00ffffff]) = ebx;
             return;
         case COMMAND_GET:
-            return_value = *((uint32_t *)getters[eax & 0x00ffffff]);
+            return_value_high = *((uint32_t *)getters[eax & 0x00ffffff]);
             has_return = true;
             return;
         case COMMAND_MEMORY:
             memory_calls[syscall_type](eax, ebx, ecx);
+            return;
+        case COMMAND_EVENT:
+            event_t event = event_pop();
+            uint32_t *binary = (uint32_t *)&event;
+            return_value_high = binary[0];
+            return_value_low = binary[1];
+            has_return = true;
             return;
     }
 }

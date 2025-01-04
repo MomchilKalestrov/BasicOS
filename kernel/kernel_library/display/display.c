@@ -24,17 +24,17 @@ void graphics_glyph(uint16_t x, uint16_t y, char glyph) {
     uint8_t *glyph_binary = &font[4 + (uint8_t)glyph * 16];
     for(uint8_t i = 0; i < 16; i++)
         for(uint8_t j = 0; j < 8; j++)
-            if(glyph_binary[i] & (1 << j)) graphics_pixel(x + (8 - j), y + i, foreground);
-                else                       graphics_pixel(x + (8 - j), y + i, background);
+            if(glyph_binary[i] & (1 << j))
+                graphics_pixel(x + (8 - j), y + i, foreground);
 }
 
 void graphics_character(uint16_t *x, uint16_t *y, char character) {
     switch(character) {
-        case '\b':
-            *x -= 9;
-            graphics_glyph(*x, *y, ' ');
-            *x -= 9;
-            break;
+        // case '\b':
+        //     *x -= 9;
+        //     graphics_glyph(*x, *y, ' ');
+        //     *x -= 9;
+        //     break;
         case '\t':
             *x += 9 * 4;
             break;
@@ -55,7 +55,7 @@ void graphics_text(uint16_t x, uint16_t y, char *text) {
     
     while(*address != '\0') {
         graphics_character(&glyph_x, &glyph_y, *address);
-        glyph_x += 9;
+        glyph_x += 8;
         address++;
     }
 }

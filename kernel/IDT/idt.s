@@ -6,7 +6,8 @@
 .extern irq_primaryATA
 .extern irq_secondaryATA
 .extern graphics_rectangle
-.extern return_value
+.extern return_value_high
+.extern return_value_low
 .extern has_return
 
 .section .data  
@@ -302,7 +303,8 @@ sysfunc:
 
     cmpl $1, has_return
     jne .no_return
-    movl return_value, %eax
+    movl return_value_high, %eax
+    movl return_value_low, %ebx
     .no_return:
 
     iret
