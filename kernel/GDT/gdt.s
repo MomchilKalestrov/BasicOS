@@ -43,7 +43,7 @@
 .section .text
 .type _load_gdt, @function
 _load_gdt:
-	lgdt (GDT_Descriptor) /* Load the GDT */
+	lgdt (GDT_Descriptor)
 
 	ljmp $0x08, $reload_CS 	/* Reload the code segment register */
 	reload_CS:

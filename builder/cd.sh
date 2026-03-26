@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/zsh
+
 # Change to the parent directory
 cd .. #
 # Assemble the boot.s file
