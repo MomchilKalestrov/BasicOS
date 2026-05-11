@@ -1,3 +1,14 @@
+#include "./display.h"
+#include "./font.h"
+
+uint32_t *framebuffer = (uint32_t *)0x1800000;
+
+uint32_t framebuffer_width;
+uint32_t framebuffer_height;
+
+uint32_t foreground;
+uint32_t background;
+
 void graphics_init(void) {
     foreground = 0x00ffffff;
     background = 0x00000000;
@@ -21,11 +32,10 @@ uint32_t graphics_getpixel(uint16_t x, uint16_t y) {
 }
 
 void graphics_glyph(uint16_t x, uint16_t y, char glyph) {
-    uint8_t *glyph_binary = &font[4 + (uint8_t)glyph * 16];
+    const unsigned char *glyph_binary = &__font[4 + (uint8_t)glyph * 16];
     for(uint8_t i = 0; i < 16; i++)
         for(uint8_t j = 0; j < 8; j++)
-            if(glyph_binary[i] & (1 << j)) graphics_pixel(x + (8 - j), y + i, foreground);
-                else                       graphics_pixel(x + (8 - j), y + i, background);
+            graphics_pixel(x + (8 - j), y + i, glyph_binary[i] & (1 << j) ? foreground : background);
 }
 
 void graphics_character(uint16_t *x, uint16_t *y, char character) {

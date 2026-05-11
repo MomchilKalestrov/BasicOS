@@ -1,3 +1,11 @@
+#include "./mmu.h"
+
+uint8_t k_heap[MMU_HEAP_SIZE]__attribute__((aligned(4096)));
+uint8_t heap[MMU_HEAP_SIZE]__attribute__((aligned(4096)));
+
+mmu_node_t *mmu_k_head = (mmu_node_t *)k_heap;
+mmu_node_t *mmu_head = (mmu_node_t *)heap;
+
 void mmu_init(void) {
     mmu_head = (mmu_node_t *)heap;
     mmu_head->size = MMU_HEAP_SIZE - sizeof(mmu_node_t);

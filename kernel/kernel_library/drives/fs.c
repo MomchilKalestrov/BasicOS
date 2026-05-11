@@ -1,3 +1,10 @@
+#include "./drives.h"
+
+mbr_header_t mbr;
+
+file_t dirs[128];
+uint64_t dir_counter = 0;
+
 void drive_poll(void) {
     while (inb(ATA_STATUS_PORT) & ATA_SR_BSY);
     while (!(inb(ATA_STATUS_PORT) & ATA_SR_DRQ));
@@ -59,7 +66,7 @@ void drive_init(mbr_header_t *mbr_ptr) {
         
         dirs[dir_counter] = (file_t) {
             .file_name = {
-                "            "
+                "           "
             },
             .first_cluster = dir[i].cluster_low | (dir[i].cluster_high << 16),
             .file_size = dir[i].filesize

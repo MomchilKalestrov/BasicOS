@@ -1,3 +1,5 @@
+#include "./pic.h"
+
 void pic_sendEOI(uint8_t irq)
 {
 	if(irq >= 8)
@@ -6,7 +8,7 @@ void pic_sendEOI(uint8_t irq)
 	outb(PIC1_COMMAND, PIC_EOI);
 }
 
-void pic_remap(int offset1, int offset2)
+void pic_remap(uint32_t offset1, uint32_t offset2)
 {
 	uint8_t a1, a2;
 	

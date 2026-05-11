@@ -1,3 +1,5 @@
+#include "./string.h"
+
 size_t string_length(const char* data) {
 	size_t len = 0;
 	while (data[len])

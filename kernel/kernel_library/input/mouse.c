@@ -1,3 +1,28 @@
+#include "./mouse.h"
+
+uint16_t mouse_x = 64;
+uint16_t mouse_y = 64;
+
+uint8_t mouse_left   = 0;
+uint8_t mouse_center = 0;
+uint8_t mouse_right  = 0;
+
+uint32_t cursor_back[CURSOR_SIZE][CURSOR_SIZE];
+const uint8_t cursor[CURSOR_SIZE][CURSOR_SIZE] = {
+    { 1,1,0,0,0,0,0,0,0,0,0,0, },
+    { 1,2,1,1,0,0,0,0,0,0,0,0, },
+    { 0,1,2,2,1,1,0,0,0,0,0,0, },
+    { 0,1,2,2,2,2,1,1,0,0,0,0, },
+    { 0,0,1,2,2,2,2,2,1,1,0,0, },
+    { 0,0,1,2,2,2,2,2,2,2,1,1, },
+    { 0,0,0,1,2,2,2,2,2,2,1,0, },
+    { 0,0,0,1,2,2,2,2,2,1,0,0, },
+    { 0,0,0,0,1,2,2,2,2,1,0,0, },
+    { 0,0,0,0,1,2,2,1,1,2,1,0, },
+    { 0,0,0,0,0,1,1,0,0,1,2,1, },
+    { 0,0,0,0,0,1,0,0,0,0,1,1, },
+};
+
 void mouse_update(int32_t new_x, int32_t new_y) {
     for(uint8_t y = 0; y < CURSOR_SIZE; y++)
         for(uint8_t x = 0; x < CURSOR_SIZE; x++)

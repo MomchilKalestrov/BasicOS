@@ -1,3 +1,5 @@
+#include "./isr.h"
+
 void irq_timer(void) {
 	pic_sendEOI(0);
 }
@@ -64,8 +66,6 @@ void irq_readkey(void) {
 	if(_kb_internal_ptr == KB_RING_SIZE)
 		_kb_internal_ptr = 0;
 
-	if(kb_event) kb_event(character);
-
 	end:
 	pic_sendEOI(1);
 }
@@ -101,17 +101,12 @@ void irq_readmouse(void) {
 		int32_t new_x = mouse_x + (x - ((state << 4) & 0x100));
 		int32_t new_y = mouse_y - (y - ((state << 3) & 0x100));
 
-		if(state & 0x01)
-			element_clicked();
-
 		if(new_x < 1) new_x = 1;
 		if(new_y < 1) new_y = 1;
 		if(new_x > (int32_t)(mb_info->framebuffer_width - 1)) new_x = mb_info->framebuffer_width - 1;
 		if(new_y > (int32_t)(mb_info->framebuffer_height - 1)) new_y = mb_info->framebuffer_height - 1;
 
 		mouse_update(new_x, new_y);
-
-		if(ms_event) ms_event();
     }
 
     // Send End of Interrupt (EOI) signal

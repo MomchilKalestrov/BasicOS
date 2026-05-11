@@ -1,3 +1,12 @@
+#ifndef __SYSCALL_H
+#define __SYSCALL_H
+
+#include <stdint.h>
+#include <stdbool.h>
+
+#include "../kernel_library/display/display.h"
+#include "../kernel_library/drives/drives.h"
+
 #define COMMAND_READ    0b00000000 << 24
 #define COMMAND_WRITE   0b00000001 << 24
 #define COMMAND_SET     0b00000010 << 24
@@ -16,17 +25,13 @@
 #define FIG_TYPE_CIRC   0b00000010 << 0
 #define FIG_TYPE_TEXT   0b00000011 << 0
 
-uint32_t return_value = 0;
-bool has_return = false;
 
-void *variables[] = {
-    (void *)&foreground,
-    (void *)&background,
-    (void *)&kb_event
-};
+typedef void (*_call)(uint32_t, uint32_t, uint32_t);
 
-typedef void (*_calls)(uint32_t, uint32_t, uint32_t);
+extern uint32_t return_value;
+extern bool has_return;
+extern uint32_t *variables[];
+extern _call read_calls[];
+extern _call write_calls[];
 
-#include "./read_calls.c"
-#include "./write_calls.c"
-#include "./syscall.c"
+#endif

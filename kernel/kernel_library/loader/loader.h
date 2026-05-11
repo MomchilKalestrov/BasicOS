@@ -1,28 +1,30 @@
-#ifndef _LOADER_
-    #define _LOADER_
+#ifndef __LOADER_H
+#define __LOADER_H
 
-    #define EI_NIDENT 16
+#include <stdint.h>
+#include <stddef.h>
 
-    typedef struct {
-        unsigned char e_ident[EI_NIDENT]; // Magic number and other info
-        uint16_t e_type;                  // Object file type
-        uint16_t e_machine;               // Architecture
-        uint32_t e_version;               // Object file version
-        uint32_t e_entry;                 // Entry point virtual address
-        uint32_t e_phoff;                 // Program header table file offset
-        uint32_t e_shoff;                 // Section header table file offset
-        uint32_t e_flags;                 // Processor-specific flags
-        uint16_t e_ehsize;                // ELF header size in bytes
-        uint16_t e_phentsize;             // Program header table entry size
-        uint16_t e_phnum;                 // Program header table entry count
-        uint16_t e_shentsize;             // Section header table entry size
-        uint16_t e_shnum;                 // Section header table entry count
-        uint16_t e_shstrndx;              // Section header string table index
-    } elf_header_t;
+#define EI_NIDENT 16
 
-    typedef void (*entry_point_t)(void);
+typedef struct {
+    unsigned char e_ident[EI_NIDENT]; // Magic number and other info
+    uint16_t e_type;                  // Object file type
+    uint16_t e_machine;               // Architecture
+    uint32_t e_version;               // Object file version
+    uint32_t e_entry;                 // Entry point virtual address
+    uint32_t e_phoff;                 // Program header table file offset
+    uint32_t e_shoff;                 // Section header table file offset
+    uint32_t e_flags;                 // Processor-specific flags
+    uint16_t e_ehsize;                // ELF header size in bytes
+    uint16_t e_phentsize;             // Program header table entry size
+    uint16_t e_phnum;                 // Program header table entry count
+    uint16_t e_shentsize;             // Section header table entry size
+    uint16_t e_shnum;                 // Section header table entry count
+    uint16_t e_shstrndx;              // Section header string table index
+} elf_header_t;
 
-    void binary_execute(uint8_t *buffer, size_t length);
+typedef void (*entry_point_t)(void);
 
-    #include "./loader.c"
+void binary_execute(uint8_t *, size_t);
+
 #endif

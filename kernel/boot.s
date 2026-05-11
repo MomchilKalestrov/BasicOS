@@ -60,7 +60,6 @@ _start:
 
     mov %ebx, (mb_info)
 
-    call _paging_init
     call _load_gdt
     call _idt_init
 

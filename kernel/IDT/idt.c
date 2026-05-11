@@ -1,11 +1,4 @@
-#define IDT_MAX_DESCRIPTORS 256
-typedef struct {
-	uint16_t    isr_low;
-	uint16_t    kernel_cs;
-	uint8_t     reserved;
-	uint8_t     attributes;
-	uint16_t    isr_high;
-} __attribute__((packed)) idt_entry_t;
+#include "./idt.h"
 
 __attribute__((aligned(0x10))) 
 static idt_entry_t idt[IDT_MAX_DESCRIPTORS];

@@ -1,34 +1,24 @@
-#ifndef _MOUSE_
-    #define _MOUSE_
+#ifndef __MOUSE_H
+#define __MOUSE_H
 
-    #define CURSOR_SIZE 12
-    
-	typedef void(*ms_callback_t)();
+#include <stdint.h>
 
-    ms_callback_t ms_event;
+#include "../display/display.h"
+#include "../instructions/instructions.h"
 
-    uint16_t mouse_x = 64;
-    uint16_t mouse_y = 64;
-    
-    uint8_t mouse_left   = 0;
-    uint8_t mouse_center = 0;
-    uint8_t mouse_right  = 0;
+#define CURSOR_SIZE 12
 
-    uint32_t cursor_back[CURSOR_SIZE][CURSOR_SIZE];
-    uint8_t cursor[CURSOR_SIZE][CURSOR_SIZE] = {
-        { 1,1,0,0,0,0,0,0,0,0,0,0, },
-        { 1,2,1,1,0,0,0,0,0,0,0,0, },
-        { 0,1,2,2,1,1,0,0,0,0,0,0, },
-        { 0,1,2,2,2,2,1,1,0,0,0,0, },
-        { 0,0,1,2,2,2,2,2,1,1,0,0, },
-        { 0,0,1,2,2,2,2,2,2,2,1,1, },
-        { 0,0,0,1,2,2,2,2,2,2,1,0, },
-        { 0,0,0,1,2,2,2,2,2,1,0,0, },
-        { 0,0,0,0,1,2,2,2,2,1,0,0, },
-        { 0,0,0,0,1,2,2,1,1,2,1,0, },
-        { 0,0,0,0,0,1,1,0,0,1,2,1, },
-        { 0,0,0,0,0,1,0,0,0,0,1,1, },
-    };
+extern uint16_t mouse_x;
+extern uint16_t mouse_y;
 
-    #include "./mouse.c"
+extern uint8_t mouse_left;
+extern uint8_t mouse_center;
+extern uint8_t mouse_right;
+
+extern uint32_t cursor_back[CURSOR_SIZE][CURSOR_SIZE];
+extern const uint8_t cursor[CURSOR_SIZE][CURSOR_SIZE];
+
+void mouse_update(int32_t, int32_t);
+void mouse_init(void);
+
 #endif
