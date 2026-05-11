@@ -18,11 +18,10 @@ void _syscall_open_file(uint32_t eax, uint32_t ebx, uint32_t ecx) {
 
 void _syscall_get_files(uint32_t eax, uint32_t ebx, uint32_t ecx) {
     uint16_t buffer_length = (uint16_t)(eax & 0x0000FFFF);
-    filename_t *buffer = (filename_t *)ebx;
+    file_t *buffer = (file_t *)ebx;
 
-    for(size_t i = 0; i < buffer_length / sizeof(filename_t); i++)
-        for(size_t j = 0; j < 11; j++)
-            buffer[i][j] = dirs[i].file_name[j];
+    for(uint8_t i = 0; i < buffer_length / sizeof(file_t); i++)
+        buffer[i] = dirs[i];
 }
 
 _call read_calls[] = {
