@@ -16,7 +16,7 @@ void graphics_init(void) {
     framebuffer_width = mb_info->framebuffer_width;
     framebuffer_height = mb_info->framebuffer_height;
 
-    framebuffer = (uint32_t *)0x1800000;
+    framebuffer = (uint32_t *)mb_info->framebuffer_addr;
     for (uint16_t y = 0; y < framebuffer_height; y++)
         for (uint16_t x = 0; x < framebuffer_width; x++)
             framebuffer[y * framebuffer_width + x] = background;
@@ -40,11 +40,11 @@ void graphics_glyph(uint16_t x, uint16_t y, char glyph) {
 
 void graphics_character(uint16_t *x, uint16_t *y, char character) {
     switch(character) {
-        case '\b':
-            *x -= 9;
-            graphics_glyph(*x, *y, ' ');
-            *x -= 9;
-            break;
+        // case '\b':
+        //     *x -= 9;
+        //     graphics_glyph(*x, *y, ' ');
+        //     *x -= 9;
+        //     break;
         case '\t':
             *x += 9 * 4;
             break;
@@ -65,7 +65,7 @@ void graphics_text(uint16_t x, uint16_t y, char *text) {
     
     while(*address != '\0') {
         graphics_character(&glyph_x, &glyph_y, *address);
-        glyph_x += 9;
+        glyph_x += 8;
         address++;
     }
 }

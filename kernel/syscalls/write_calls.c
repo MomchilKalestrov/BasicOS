@@ -37,6 +37,18 @@ void _syscall_write_figure(uint32_t eax, uint32_t ebx, uint32_t ecx) {
                 (char *)ecx
             );
             break;
+        case FIG_TYPE_PIXE:
+            graphics_pixel(
+                ebx >> 16, (uint16_t)ebx & 0x0000FFFF,
+                ecx
+            );
+            break;
+        case FIG_TYPE_SYMB:
+            graphics_glyph(
+                ebx >> 16, (uint16_t)ebx & 0x0000FFFF,
+                (char)ecx
+            );
+            break;
     }
 }
 
